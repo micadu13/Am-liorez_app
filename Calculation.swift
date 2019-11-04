@@ -8,5 +8,12 @@
 
 import Foundation
 class Calculation {
+    var vc = ViewController()
+    vc.
+   
+    
+    var elements: [String] {
+        return vc.textView.text.split(separator: " ").map { "\($0)" }
+    }
     
 }
