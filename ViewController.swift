@@ -9,8 +9,12 @@
 import UIKit
 
 class ViewController: UIViewController {
+    
+    var calcul = Calculation(text: [""])
+    
     @IBOutlet weak var textView: UITextView!
     @IBOutlet var numberButtons: [UIButton]!
+    
     
     var elements: [String] {
         return textView.text.split(separator: " ").map { "\($0)" }
@@ -122,6 +126,8 @@ class ViewController: UIViewController {
             switch operand {
             case "+": result = left + right
             case "-": result = left - right
+            case "*": result = left * right
+            case "/": result = left / right 
             default: fatalError("Unknown operator !")
             }
             

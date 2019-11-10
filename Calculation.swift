@@ -7,13 +7,35 @@
 //
 
 import Foundation
+
+import UIKit
 class Calculation {
-    var vc = ViewController()
-    vc.
-   
+
+    var text:[String]
     
-    var elements: [String] {
-        return vc.textView.text.split(separator: " ").map { "\($0)" }
+    init(text:[String]) {
+        self.text = text
+    }
+    
+    var elements: [String]{
+        return text.split(separator: " ").map {"\($0)"}
+    }
+    
+    // Error check computed variables
+    var expressionIsCorrect: Bool {
+        return elements.last != "+" && elements.last != "-" && elements.last != "*" && elements.last != "/"
+    }
+    
+    var expressionHaveEnoughElement: Bool {
+        return elements.count >= 3
+    }
+    
+    var canAddOperator: Bool {
+        return elements.last != "+" && elements.last != "-" && elements.last != "*" && elements.last != "/"
+    }
+    
+    var expressionHaveResult: Bool {
+        return text.firstIndex(of: "=") != nil
     }
     
 }
