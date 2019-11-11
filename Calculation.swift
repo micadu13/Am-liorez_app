@@ -11,9 +11,10 @@ import Foundation
 import UIKit
 class Calculation {
 
-    var text:[String]
+    var text:String
     
-    init(text:[String]) {
+    
+    init(text:String) {
         self.text = text
     }
     
@@ -38,4 +39,24 @@ class Calculation {
         return text.firstIndex(of: "=") != nil
     }
     
+   
+    func addition(){
+        if canAddOperator == true
+        {
+            text.append(" + ")
+        }
+        else {
+         
+        }
+    }
+    
+        func showAlert(on vc:UIViewController,with title:String, message:String)
+    {
+    let alert = UIAlertController(title: "Zéro!", message: "un opérateur est déja mis !", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+    DispatchQueue.main.async {
+    vc.present(alert, animated: true, completion: nil)
+    }
+        }
 }
