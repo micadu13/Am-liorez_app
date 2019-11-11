@@ -45,18 +45,23 @@ class Calculation {
         {
             text.append(" + ")
         }
-        else {
-         
+    }
+    
+    func soustraction(){
+        if canAddOperator == true {
+            text.append(" - ")
         }
     }
     
-        func showAlert(on vc:UIViewController,with title:String, message:String)
-    {
-    let alert = UIAlertController(title: "Zéro!", message: "un opérateur est déja mis !", preferredStyle: .alert)
-        
-        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-    DispatchQueue.main.async {
-    vc.present(alert, animated: true, completion: nil)
+    func multiplication(){
+         if canAddOperator == true {
+                   text.append(" * ")
+               }
     }
-        }
+    func division(){
+            if canAddOperator == true {
+                      text.append(" / ")
+                  }
+       }
+    
 }
