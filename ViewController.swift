@@ -33,83 +33,91 @@ class ViewController: UIViewController {
         guard let numberText = sender.title(for: .normal) else {
             return
         }
-        textView.text.append(numberText)
+        calcul.addNumber(number: numberText)
+        textView.text = calcul.text
     }
     
     
     @IBAction func tappedAdditionButton(_ sender: UIButton) {
-        if calcul.canAddOperator {
-            calcul.addition()
-        }
-        else  {
+        do
+        {
+            try calcul.addition()
+        } catch Calculation.Error.cannotAddOperator {
             alertmessage()
+        } catch {
+            
         }
     }
     
     @IBAction func tappedSubstractionButton(_ sender: UIButton) {
-        if calcul.canAddOperator {
-            calcul.soustraction()
-        } else {
-            alertmessage()
+        do
+        {
+            try calcul.soustraction()
         }
+        catch Calculation.Error.cannotAddOperator {
+            alertmessage()
+        } catch {
+            
+        }
+
     }
     
     
     @IBAction func tappedMultiplication(_ sender: UIButton) {
         
-        if calcul.canAddOperator {
-            calcul.multiplication()
-        } else {
-            alertmessage()
+       do
+        {
+            try calcul.multiplication()
         }
+        catch Calculation.Error.cannotAddOperator {
+            alertmessage()
+        } catch {
+            
+        }
+
     }
     
     
     @IBAction func tappedDivision(_ sender: UIButton) {
-        if calcul.canAddOperator {
-            calcul.division()
-        } else {
+       do
+        {
+            try calcul.division()
+        }
+        catch Calculation.Error.cannotAddOperator {
             alertmessage()
+        } catch {
+            
         }
     }
     
     @IBAction func tappedEqualButton(_ sender: UIButton) {
-        guard calcul.expressionIsCorrect else {
+        
+        do {
+            try calcul.calculate()
+        }
+        catch Calculation.Error.expressionIsNotCorrect {
             let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             return self.present(alertVC, animated: true, completion: nil)
         }
-        
-        guard calcul.expressionHaveEnoughElement else {
+        catch Calculation.Error.expressionDoesNotHaveEnoughtElement{
             let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             return self.present(alertVC, animated: true, completion: nil)
         }
-        
-        // Create local copy of operations
-        var operationsToReduce = calcul.elements
-        
-        // Iterate over operations while an operand still here
-        while operationsToReduce.count > 1 {
-            let left = Int(operationsToReduce[0])!
-            let operand = operationsToReduce[1]
-            let right = Int(operationsToReduce[2])!
+        catch {
             
-            let result: Int
-            switch operand {
-            case "+": result = left + right
-            case "-": result = left - right
-            case "*": result = left * right
-            case "/": result = left / right 
-            default: fatalError("Unknown operator !")
-            }
-            
-            operationsToReduce = Array(operationsToReduce.dropFirst(3))
-            operationsToReduce.insert("\(result)", at: 0)
         }
         
-        textView.text.append(" = \(operationsToReduce.first!)")
+        
     }
-
+    
+    @IBAction func clean(){
+        calcul.clear()
+        textView.text = calcul.text
+      
+       
+    }
+    
 }
 
