@@ -42,6 +42,7 @@ class ViewController: UIViewController {
         do
         {
             try calcul.addition()
+            textView.text = calcul.text
         } catch Calculation.Error.cannotAddOperator {
             alertmessage()
         } catch {
@@ -53,6 +54,7 @@ class ViewController: UIViewController {
         do
         {
             try calcul.soustraction()
+            textView.text = calcul.text
         }
         catch Calculation.Error.cannotAddOperator {
             alertmessage()
@@ -68,6 +70,7 @@ class ViewController: UIViewController {
        do
         {
             try calcul.multiplication()
+            textView.text = calcul.text
         }
         catch Calculation.Error.cannotAddOperator {
             alertmessage()
@@ -82,6 +85,7 @@ class ViewController: UIViewController {
        do
         {
             try calcul.division()
+            textView.text = calcul.text
         }
         catch Calculation.Error.cannotAddOperator {
             alertmessage()
@@ -94,6 +98,7 @@ class ViewController: UIViewController {
         
         do {
             try calcul.calculate()
+            textView.text = calcul.text
         }
         catch Calculation.Error.expressionIsNotCorrect {
             let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)

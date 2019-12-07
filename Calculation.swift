@@ -91,6 +91,7 @@ class Calculation {
     }
     
     
+    
     func calculate() throws{
         
         guard expressionIsCorrect
@@ -104,69 +105,76 @@ class Calculation {
                 throw Error.expressionDoesNotHaveEnoughtElement
                 
         }
-        
-        firstpriority()
-        secondpriority()
-        
+        let op1 = resolvePrioritizeOperation(elements: elements)
+        let result = resolveOperations(elements: op1)
+        text.append(" = \(result[0])")
     }
     
-     func firstpriority(){
-            var operationsToReduce = elements
-               while operationsToReduce.contains("*") || operationsToReduce.contains("/") {
-                   if let index = operationsToReduce.firstIndex(of: "*") ?? operationsToReduce.firstIndex(of: "/") {
-                       
-                       let left = Int(operationsToReduce[index-1])!
-                       let operand = operationsToReduce[index]
-                       let right = Int(operationsToReduce[index+1])!
-                       
-                       var result: Int
-                       
-                       switch operand {
-                           
-                       case "*": // 1st priority
-                           result = left * right
-                       case "/"://2d priority
-                           result = left / right
-                           
-                       default: fatalError("Unknown operator !")
-                       }
-                       
-                       operationsToReduce[index-1] = "\(result)"
-                       operationsToReduce.remove(at: index)
-                       operationsToReduce.remove(at: index)
-                   }
-                   
-               }
-               
-           }
     
-    func secondpriority(){
+    func resolvePrioritizeOperation(elements: [String]) -> [String] {
+        
+        var operationsToReduce = elements
+        while operationsToReduce.contains("*") || operationsToReduce.contains("/") {
+            if let index = operationsToReduce.firstIndex(of: "*") ?? operationsToReduce.firstIndex(of: "/") {
+                
+                let left = Double(operationsToReduce[index-1])!
+                let operand = operationsToReduce[index]
+                let right = Double(operationsToReduce[index+1])!
+                
+                var result: Double
+                
+                switch operand {
+                    
+                case "*": // 1st priority
+                    result = left * right
+                    
+                case "/"://2d priority
+                    result = left / right
+                    
+                    
+                default: fatalError("Unknown operator !")
+                }
+                
+                operationsToReduce[index-1] = "\(result)"
+                operationsToReduce.remove(at: index)
+                operationsToReduce.remove(at: index)
+            }
+        }
+        return operationsToReduce
+    }
+    
+    func resolveOperations(elements: [String]) -> [String] {
         var operationsToReduce = elements
         while operationsToReduce.contains("+") || operationsToReduce.contains("-")
         {
             if let index = operationsToReduce.firstIndex(of: "+") ?? operationsToReduce.firstIndex(of: "-")
             {
-                let left = Int(operationsToReduce[index-1])!
+                let left = Double(operationsToReduce[index-1])!
                 let operand = operationsToReduce[index]
-                let right = Int(operationsToReduce[index+1])!
+                let right = Double(operationsToReduce[index+1])!
                 
-                var result: Int
+                var result: Double
                 
                 switch operand {
                 case "+": //3rd priority
                     result = left + right
+                    
                 case "-": //4th priorrity
                     result = left - right
+                    
                     
                 default: fatalError("Unknown operator !")
                 }
                 
-                operationsToReduce = Array(operationsToReduce.dropFirst(3))
-                operationsToReduce.insert("\(result)", at: 0)
+                operationsToReduce[index-1] = "\(result)"
+                operationsToReduce.remove(at: index)
+                operationsToReduce.remove(at: index)
                 
             }
         }
+        return operationsToReduce
     }
+    
     
 }
 
