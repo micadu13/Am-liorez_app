@@ -15,6 +15,7 @@ class Calculation {
         case cannotAddOperator
         case expressionIsNotCorrect
         case expressionDoesNotHaveEnoughtElement
+        case CannotUseZero
     }
     
     var text:String
@@ -49,73 +50,58 @@ class Calculation {
         text.append("\(number)")
     }
     
-    func addition() throws {
+    func addOperator(_ op: String) throws {
         if canAddOperator == true
         {
-            text.append(" + ")
+            text.append(" \(op) ")
         } else {
             throw Error.cannotAddOperator
         }
     }
     
+    func addition() throws {
+        try addOperator("+")
+    }
+    
     func soustraction() throws {
-        if canAddOperator == true {
-            text.append(" - ")
-        }
-        else
-        {
-            throw Error.cannotAddOperator
-        }
+        try addOperator("-")
     }
     
     func multiplication() throws {
-        if canAddOperator == true {
-            text.append(" * ")
-        }
-        else
-        {
-            throw Error.cannotAddOperator
-        }
+        try addOperator("*")
     }
     func division() throws {
-        if canAddOperator == true {
-            text.append(" / ")
-        }
-        else {
-            throw Error.cannotAddOperator
-        }
+        try addOperator("/")
     }
-    
-    func clear(){
-        text = ""
-    }
-    
     
     
     func calculate() throws{
         
-        guard expressionIsCorrect
-            else {
-                throw Error.expressionIsNotCorrect
-                
-        }
         
         guard expressionHaveEnoughElement
             else {
                 throw Error.expressionDoesNotHaveEnoughtElement
-                
         }
-        let op1 = resolvePrioritizeOperation(elements: elements)
+        
+        guard expressionIsCorrect
+            else {
+                throw Error.expressionIsNotCorrect
+        }
+        
+        let op1 =  try resolvePrioritizeOperation(elements: elements)
         let result = resolveOperations(elements: op1)
         text.append(" = \(result[0])")
+        
     }
     
     
-    func resolvePrioritizeOperation(elements: [String]) -> [String] {
+    
+    func resolvePrioritizeOperation  (elements: [String]) throws -> [String]  {
         
         var operationsToReduce = elements
         while operationsToReduce.contains("*") || operationsToReduce.contains("/") {
             if let index = operationsToReduce.firstIndex(of: "*") ?? operationsToReduce.firstIndex(of: "/") {
+                
                 
                 let left = Double(operationsToReduce[index-1])!
                 let operand = operationsToReduce[index]
@@ -127,18 +113,23 @@ class Calculation {
                     
                 case "*": // 1st priority
                     result = left * right
-                    
-                case "/"://2d priority
-                    result = left / right
-                    
+                case "/": // 1st priority
+                    if right != 0  {
+                        
+                        result = left / right
+                    }
+                    else
+                    {
+                        throw  Error.CannotUseZero
+                    }
                     
                 default: fatalError("Unknown operator !")
                 }
-                
                 operationsToReduce[index-1] = "\(result)"
                 operationsToReduce.remove(at: index)
                 operationsToReduce.remove(at: index)
             }
+            
         }
         return operationsToReduce
     }
@@ -175,6 +166,9 @@ class Calculation {
         return operationsToReduce
     }
     
+    func clear(){
+        text = ""
+    }
     
 }
 

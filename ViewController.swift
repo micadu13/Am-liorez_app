@@ -27,6 +27,12 @@ class ViewController: UIViewController {
         self.present(alertVC, animated: true, completion: nil)
     }
     
+    func alertwithZero(){
+        let alertVC = UIAlertController(title: "Zéro!", message: "Multiplication ou Division Par zero Impossible ", preferredStyle: .alert)
+        alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        self.present(alertVC, animated: true, completion: nil)
+    }
+    
     
     // View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
@@ -74,7 +80,9 @@ class ViewController: UIViewController {
         }
         catch Calculation.Error.cannotAddOperator {
             alertmessage()
-        } catch {
+        }
+        
+       catch {
             
         }
 
@@ -89,7 +97,11 @@ class ViewController: UIViewController {
         }
         catch Calculation.Error.cannotAddOperator {
             alertmessage()
-        } catch {
+        }
+       
+       catch Calculation.Error.CannotUseZero{
+           alertwithZero()
+       }       catch {
             
         }
     }
@@ -97,7 +109,8 @@ class ViewController: UIViewController {
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         
         do {
-            try calcul.calculate()
+           try calcul.calculate()
+            
             textView.text = calcul.text
         }
         catch Calculation.Error.expressionIsNotCorrect {
@@ -109,6 +122,10 @@ class ViewController: UIViewController {
             let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             return self.present(alertVC, animated: true, completion: nil)
+        }
+        
+        catch Calculation.Error.CannotUseZero {
+            alertwithZero()
         }
         catch {
             
