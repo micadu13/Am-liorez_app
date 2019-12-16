@@ -110,8 +110,8 @@ class ViewController: UIViewController {
         
         do {
            try calcul.calculate()
-            
             textView.text = calcul.text
+            calcul.recalcul()
         }
         catch Calculation.Error.expressionIsNotCorrect {
             let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
@@ -127,11 +127,11 @@ class ViewController: UIViewController {
         catch Calculation.Error.CannotUseZero {
             alertwithZero()
         }
+        
         catch {
             
         }
-        
-        
+   
     }
     
     @IBAction func clean(){

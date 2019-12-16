@@ -77,7 +77,6 @@ class Calculation {
     
     func calculate() throws{
         
-        
         guard expressionHaveEnoughElement
             else {
                 throw Error.expressionDoesNotHaveEnoughtElement
@@ -94,6 +93,18 @@ class Calculation {
         
     }
     
+    func recalcul(){
+        if expressionHaveResult == true {
+            clear()
+            do {
+              try calculate()
+            }
+            catch{
+                
+            }
+           
+        }
+    }
     
     
     func resolvePrioritizeOperation  (elements: [String]) throws -> [String]  {

@@ -133,6 +133,11 @@ class SimpleCalcTests: XCTestCase {
         calc.clear()
         XCTAssert(calc.text == "")
     }
+    func testGivenHasAResult_WhenClickOnRecalculate_ThenReadytoRecalculate(){
+        calc.addNumber(number: "4")
+        calc.recalcul()
+        XCTAssert(calc.text == "")
+    }
     
     
     override func tearDown() {
