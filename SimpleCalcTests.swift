@@ -95,7 +95,7 @@ class SimpleCalcTests: XCTestCase {
         calc.addNumber(number: "0")
         do {
             try calc.calculate()
-        } catch (Calculation.Error.CannotUseZero) {
+        } catch (Calculation.Error.cannotUseZero) {
             XCTAssert(true)
         } catch {
             XCTAssert(false)
@@ -133,10 +133,45 @@ class SimpleCalcTests: XCTestCase {
         calc.clear()
         XCTAssert(calc.text == "")
     }
-    func testGivenHasAResult_WhenClickOnRecalculate_ThenReadytoRecalculate(){
+  
+    func testGivenCalculIsDone_WhenStartANewCalcul_ThenStartANewCalcul(){
+        calc.addNumber(number: "3")
+        XCTAssertNoThrow(try calc.addition())
+        calc.addNumber(number: "3")
+        XCTAssertNoThrow(try calc.calculate())
         calc.addNumber(number: "4")
-        calc.recalcul()
-        XCTAssert(calc.text == "")
+        XCTAssert(calc.text == "4")
+        
+    }
+    
+    
+    func testGivenCalculIsDone_WhenStartANewCalcul_ThenStartANewCalculAndThrowAnError(){
+        calc.addNumber(number: "3")
+        XCTAssertNoThrow(try calc.addition())
+        calc.addNumber(number: "3")
+        XCTAssertNoThrow(try calc.calculate())
+        do {
+            try calc.addition()
+        }
+        catch Calculation.Error.cannotAddOperator{
+            XCTAssert(true)
+        }
+        
+        catch {
+            XCTAssert(false)
+        }
+    }
+    func testGivenisEmpty_WhenStartingWithOneOperator_ThenCannotStartACalcul(){
+        calc.clear()
+        do {
+            try calc.addition()
+        }
+        catch Calculation.Error.cannotAddOperator{
+            XCTAssert(true)
+        }
+        catch {
+            XCTAssert(false)
+        }
     }
     
     

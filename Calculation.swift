@@ -15,7 +15,8 @@ class Calculation {
         case cannotAddOperator
         case expressionIsNotCorrect
         case expressionDoesNotHaveEnoughtElement
-        case CannotUseZero
+        case cannotUseZero
+        
     }
     
     var text:String
@@ -30,6 +31,8 @@ class Calculation {
     }
     
     // Error check computed variables
+  
+ 
     var expressionIsCorrect: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "*" && elements.last != "/"
     }
@@ -39,7 +42,7 @@ class Calculation {
     }
     
     var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-" && elements.last != "*" && elements.last != "/"
+        return elements.last != "+" && elements.last != "-" && elements.last != "*" && elements.last != "/" && elements.last != nil
     }
     
     var expressionHaveResult: Bool {
@@ -47,10 +50,16 @@ class Calculation {
     }
     
     func addNumber(number: String) {
+        if expressionHaveResult {
+            clear()
+        }
         text.append("\(number)")
     }
     
     func addOperator(_ op: String) throws {
+        if expressionHaveResult {
+            clear()
+        }
         if canAddOperator == true
         {
             text.append(" \(op) ")
@@ -77,6 +86,7 @@ class Calculation {
     
     func calculate() throws{
         
+      
         guard expressionHaveEnoughElement
             else {
                 throw Error.expressionDoesNotHaveEnoughtElement
@@ -92,20 +102,6 @@ class Calculation {
         text.append(" = \(result[0])")
         
     }
-    
-    func recalcul(){
-        if expressionHaveResult == true {
-            clear()
-            do {
-              try calculate()
-            }
-            catch{
-                
-            }
-           
-        }
-    }
-    
     
     func resolvePrioritizeOperation  (elements: [String]) throws -> [String]  {
         
@@ -131,7 +127,7 @@ class Calculation {
                     }
                     else
                     {
-                        throw  Error.CannotUseZero
+                        throw  Error.cannotUseZero
                     }
                     
                 default: fatalError("Unknown operator !")

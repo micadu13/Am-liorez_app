@@ -22,7 +22,7 @@ class ViewController: UIViewController {
         // Do any additional setup after loading the view.
     }
     func alertmessage(){
-        let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
+        let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis ou calcul ne peut commencer par un opérateur !", preferredStyle: .alert)
         alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         self.present(alertVC, animated: true, completion: nil)
     }
@@ -34,8 +34,10 @@ class ViewController: UIViewController {
     }
     
     
+    
     // View actions
     @IBAction func tappedNumberButton(_ sender: UIButton) {
+        
         guard let numberText = sender.title(for: .normal) else {
             return
         }
@@ -99,7 +101,7 @@ class ViewController: UIViewController {
             alertmessage()
         }
        
-       catch Calculation.Error.CannotUseZero{
+       catch Calculation.Error.cannotUseZero{
            alertwithZero()
        }       catch {
             
@@ -111,7 +113,6 @@ class ViewController: UIViewController {
         do {
            try calcul.calculate()
             textView.text = calcul.text
-            calcul.recalcul()
         }
         catch Calculation.Error.expressionIsNotCorrect {
             let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
@@ -124,7 +125,7 @@ class ViewController: UIViewController {
             return self.present(alertVC, animated: true, completion: nil)
         }
         
-        catch Calculation.Error.CannotUseZero {
+        catch Calculation.Error.cannotUseZero {
             alertwithZero()
         }
         
