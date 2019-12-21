@@ -11,7 +11,7 @@ import XCTest
 
 class SimpleCalcTests: XCTestCase {
     var calc : Calculation!
-
+    
     override func setUp() {
         // Put setup code here. This method is called before the invocation of each test method in the class.
         super.setUp()
@@ -19,7 +19,7 @@ class SimpleCalcTests: XCTestCase {
         
         
     }
-
+    
     //Test Divison By 0
     
     func testGivenThree_WhenAdditionSeven_ThenEqualTen() {
@@ -58,7 +58,7 @@ class SimpleCalcTests: XCTestCase {
     }
     
     func testGivenStartPriorityOfOperations_WhenMakingTheOperations_ThenResultOfOperations(){
-        //(10*3+10/2-5) => 30+15-5=>45-5=>30
+        //(10*3+10/2-5) => 30+5-5=> 30
         calc.addNumber(number: "10")
         XCTAssertNoThrow(try calc.multiplication())
         calc.addNumber(number: "3")
@@ -73,7 +73,7 @@ class SimpleCalcTests: XCTestCase {
         
     }
     
-
+    
     
     
     func testGivenThree_WhenAdditionTwice_ThenThrowCannotAddOperator() {
@@ -118,7 +118,7 @@ class SimpleCalcTests: XCTestCase {
         calc.addNumber(number: "3")
         XCTAssertNoThrow(try calc.addition())
         calc.addNumber(number: "2")
-         XCTAssertNoThrow(try calc.addition())
+        XCTAssertNoThrow(try calc.addition())
         do {
             try calc.calculate()
         } catch (Calculation.Error.expressionIsNotCorrect) {
@@ -133,7 +133,7 @@ class SimpleCalcTests: XCTestCase {
         calc.clear()
         XCTAssert(calc.text == "")
     }
-  
+    
     func testGivenCalculIsDone_WhenStartANewCalcul_ThenStartANewCalcul(){
         calc.addNumber(number: "3")
         XCTAssertNoThrow(try calc.addition())
@@ -156,7 +156,7 @@ class SimpleCalcTests: XCTestCase {
         catch Calculation.Error.cannotAddOperator{
             XCTAssert(true)
         }
-        
+            
         catch {
             XCTAssert(false)
         }
@@ -178,17 +178,17 @@ class SimpleCalcTests: XCTestCase {
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
     }
-
+    
     func testExample() {
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
-
+    
     func testPerformanceExample() {
         // This is an example of a performance test case.
         self.measure {
             // Put the code you want to measure the time of here.
         }
     }
-
+    
 }

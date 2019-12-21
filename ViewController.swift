@@ -69,13 +69,13 @@ class ViewController: UIViewController {
         } catch {
             
         }
-
+        
     }
     
     
     @IBAction func tappedMultiplication(_ sender: UIButton) {
         
-       do
+        do
         {
             try calcul.multiplication()
             textView.text = calcul.text
@@ -83,16 +83,16 @@ class ViewController: UIViewController {
         catch Calculation.Error.cannotAddOperator {
             alertmessage()
         }
-        
-       catch {
+            
+        catch {
             
         }
-
+        
     }
     
     
     @IBAction func tappedDivision(_ sender: UIButton) {
-       do
+        do
         {
             try calcul.division()
             textView.text = calcul.text
@@ -100,10 +100,10 @@ class ViewController: UIViewController {
         catch Calculation.Error.cannotAddOperator {
             alertmessage()
         }
-       
-       catch Calculation.Error.cannotUseZero{
-           alertwithZero()
-       }       catch {
+            
+        catch Calculation.Error.cannotUseZero{
+            alertwithZero()
+        }       catch {
             
         }
     }
@@ -111,7 +111,7 @@ class ViewController: UIViewController {
     @IBAction func tappedEqualButton(_ sender: UIButton) {
         
         do {
-           try calcul.calculate()
+            try calcul.calculate()
             textView.text = calcul.text
         }
         catch Calculation.Error.expressionIsNotCorrect {
@@ -124,22 +124,22 @@ class ViewController: UIViewController {
             alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
             return self.present(alertVC, animated: true, completion: nil)
         }
-        
+            
         catch Calculation.Error.cannotUseZero {
             alertwithZero()
         }
-        
+            
         catch {
             
         }
-   
+        
     }
     
     @IBAction func clean(){
         calcul.clear()
         textView.text = calcul.text
-      
-       
+        
+        
     }
     
 }

@@ -31,8 +31,8 @@ class Calculation {
     }
     
     // Error check computed variables
-  
- 
+    
+    
     var expressionIsCorrect: Bool {
         return elements.last != "+" && elements.last != "-" && elements.last != "*" && elements.last != "/"
     }
@@ -86,7 +86,7 @@ class Calculation {
     
     func calculate() throws{
         
-      
+        
         guard expressionHaveEnoughElement
             else {
                 throw Error.expressionDoesNotHaveEnoughtElement
